@@ -22,7 +22,7 @@ export class User {
   @Column({ length: 30 })
   fullname: string;
 
-  @Column({ length: 100 })
+  @Column()
   gender : EGender
 
   @Column({ length: 10 })
