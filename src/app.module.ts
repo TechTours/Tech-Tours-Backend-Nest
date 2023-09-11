@@ -9,6 +9,9 @@ import {Role} from "./entities/role.entity";
 import {Activity} from "./entities/activity.entity";
 import { RolesModule } from './roles/roles.module';
 import { RolesService } from './roles/roles.service';
+import { UsersModule } from './users/users.module';
+import { ActivityModule } from './activity/activity.module';
+import { HomeModule } from './home/home.module';
 
   @Module({
     imports: [
@@ -32,7 +35,7 @@ import { RolesService } from './roles/roles.service';
           synchronize: true,
         }),
         inject: [ConfigService],
-      }), RolesModule
+      }), RolesModule, UsersModule, ActivityModule, HomeModule
     ]
   })
 
