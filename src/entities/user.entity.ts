@@ -1,5 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import { UserRoles } from 'src/enums/EUserRoles.enum';
+import { Entity, PrimaryGeneratedColumn, Column, Unique , ManyToOne } from 'typeorm';
+import { Role } from './role.entity';
+import { EGender } from 'src/enums/EGender.enum';
 
 @Entity('users')
 @Unique(['email']) // Ensure that the email column is unique in the database
@@ -8,7 +11,7 @@ export class User {
   id: number;
 
   @Column()
-  userName: string;
+  username: string;
 
   @Column({ length: 200 })
   password: string;
@@ -17,13 +20,19 @@ export class User {
   email: string;
 
   @Column({ length: 30 })
-  fullName: string;
+  fullname: string;
+
+  @Column({ length: 100 })
+  gender : EGender
 
   @Column({ length: 10 })
   tel: string;
 
   @Column({ default: false })
   isAdmin: boolean;
+
+  @ManyToOne(()=> Role)
+  role : UserRoles
 
   @Column({ default: true })
   isActive: boolean;
