@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Controller } from '@nestjs/common';
 
 @Controller('home')
