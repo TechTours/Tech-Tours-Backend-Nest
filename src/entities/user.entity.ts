@@ -10,7 +10,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({length: 100})
   username: string;
 
   @Column({ length: 200 })
@@ -32,12 +32,18 @@ export class User {
   isAdmin: boolean;
 
   @ManyToOne(()=> Role)
-  role : UserRoles
+  role : Role
 
   @Column({ default: true })
   isActive: boolean;
 
   @Column({ length: 32, nullable: true })
   OTP: string;
+
+  @Column({ nullable: false})
+  createdAt : Date
+
+  @Column({ nullable: true})
+  updatedAt : Date
 
 }

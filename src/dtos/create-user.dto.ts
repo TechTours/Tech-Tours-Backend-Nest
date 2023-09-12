@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsString , IsOptional} from "class-validator";
 
 export class CreateUserDto{
     @IsString()
@@ -34,12 +34,12 @@ export class CreateUserDto{
     tel: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty()
     adminKey : string;
 
-    @IsString()
+    @IsBoolean()
     @IsNotEmpty()
     @ApiProperty()
-    isAdmin : string;
+    isAdmin : boolean;
 }

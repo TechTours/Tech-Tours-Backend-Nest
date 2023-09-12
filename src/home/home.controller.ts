@@ -1,5 +1,13 @@
 /* eslint-disable */
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('home')
-export class HomeController {}
+@Controller('/')
+@ApiTags('home')
+export class HomeController {
+
+    @Get('/')
+    getHome(): string {
+        return '<h2>Welcome to the Tech Tours API</h2> ';
+    }
+}
