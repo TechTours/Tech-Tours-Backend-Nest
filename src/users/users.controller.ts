@@ -5,6 +5,8 @@ import { UsersService } from './users.service';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { CreateUserDto } from 'src/dtos/create-user.dto';
 import { UpdateUserDto } from 'src/dtos/update-user.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import {UseGuards} from '@nestjs/common'
 
 @Controller('users')
 @ApiTags('users')

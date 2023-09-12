@@ -9,12 +9,16 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from 'src/dtos/update-user.dto';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
+import { UserLoginDto } from 'src/dtos/user-login.dto';
+import { JwtService } from '@nestjs/jwt';
+import { Public } from 'src/decorators/public';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User) private userRepository: Repository<User>,
-        private roleService : RolesService
+        private roleService : RolesService,
+        private jwtService : JwtService
     ){}
 
     async findOneByUsername(username: string): Promise<User | undefined> {
@@ -70,6 +74,7 @@ export class UsersService {
     }
 
 
+    @Public()
     async createAdmin(user: CreateUserDto): Promise<{
         message: string,
         user : User
@@ -155,7 +160,6 @@ export class UsersService {
           const usernameUser = await this.findOneByUsername(username);
              if(usernameUser) return new BadRequestException("Username Already Exists");
  
- 
         let userGender;
  
         if(gender == 'male'){
@@ -222,6 +226,18 @@ export class UsersService {
             message : "The User Has Been Deleted Successfully",
             user : user
         }
+    }
+
+
+    async login(user : UserLoginDto ){
+        const {email , password} = user;
+        const userSelected = await this.getUserByEmail(email);
+        if(!userSelected) return new NotFoundException("Invalid Email Or Password");
+        if (!bcrypt.compareSync(password, userSelected.password)) {
+            return new BadRequestException("Invalid Email Or Password");
+        }
+      const payload = { username : userSelected.username , id : userSelected.id , role : userSelected.role.role_name , isAdmin : userSelected.isAdmin , email : userSelected.email};
+      const access_token = await this.jwtService.signAsync(payload);
     }
 
 

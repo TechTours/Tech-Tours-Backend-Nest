@@ -12,6 +12,7 @@ import { RolesService } from './roles/roles.service';
 import { UsersModule } from './users/users.module';
 import { ActivityModule } from './activity/activity.module';
 import { HomeModule } from './home/home.module';
+import { AuthModule } from './auth/auth.module';
 
   @Module({
     imports: [
@@ -35,7 +36,7 @@ import { HomeModule } from './home/home.module';
           synchronize: true,
         }),
         inject: [ConfigService],
-      }), RolesModule, UsersModule, ActivityModule, HomeModule
+      }), RolesModule, UsersModule, ActivityModule, HomeModule, AuthModule
     ]
   })
 
