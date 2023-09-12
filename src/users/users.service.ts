@@ -11,7 +11,7 @@ import { UpdateUserDto } from 'src/dtos/update-user.dto';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { UserLoginDto } from 'src/dtos/user-login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { Public } from 'src/decorators/public';
+import { Public } from 'src/decorators/public.decorator';
 
 @Injectable()
 export class UsersService {
