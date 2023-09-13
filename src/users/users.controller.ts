@@ -7,6 +7,8 @@ import { CreateUserDto } from 'src/dtos/create-user.dto';
 import { UpdateUserDto } from 'src/dtos/update-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import {UseGuards} from '@nestjs/common'
+import { Public } from 'src/decorators/public.decorator';
+import { UserLoginDto } from 'src/dtos/user-login.dto';
 
 @Controller('users')
 @ApiTags('users')
@@ -56,6 +58,7 @@ export class UsersController {
         return user
     }
 
+    @Public()
     @Post('/admin/create')
     @ApiBody({type : CreateUserDto})
     async createAdmin(@Body() admin :CreateUserDto){
@@ -77,5 +80,12 @@ export class UsersController {
     @Delete('/delete/:id')
     async deleteUser(@Param('id') id : string){
         return await this.usersService.deleteUser(parseInt(id))
+    }
+
+    @Public()
+    @Post('/login')
+    @ApiBody({type : UserLoginDto})
+    async login(@Body() user : UserLoginDto){
+        return await this.usersService.login(user)
     }
 }

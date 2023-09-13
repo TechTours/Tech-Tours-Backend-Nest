@@ -67,6 +67,7 @@ export class ActivityService {
 
 
    async updateActivity(id : number , attrs : Partial<UpdateActivityDto>){
+    console.log(id);
     const activity = await this.activityRepository.findOne({
         where : {
             id : id

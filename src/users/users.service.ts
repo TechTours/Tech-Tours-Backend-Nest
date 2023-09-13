@@ -228,7 +228,6 @@ export class UsersService {
         }
     }
 
-
     async login(user : UserLoginDto ){
         const {email , password} = user;
         const userSelected = await this.getUserByEmail(email);
@@ -236,8 +235,12 @@ export class UsersService {
         if (!bcrypt.compareSync(password, userSelected.password)) {
             return new BadRequestException("Invalid Email Or Password");
         }
-      const payload = { username : userSelected.username , id : userSelected.id , role : userSelected.role.role_name , isAdmin : userSelected.isAdmin , email : userSelected.email};
+      const payload = { username : userSelected.username , id : userSelected.id , role : userSelected.role , isAdmin : userSelected.isAdmin , tel : userSelected.tel , email : userSelected.email};
       const access_token = await this.jwtService.signAsync(payload);
+      return {
+          message  : "Logged In Successfully",
+          access_token : access_token
+      }
     }
 
 

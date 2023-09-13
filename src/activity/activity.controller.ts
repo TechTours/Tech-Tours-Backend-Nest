@@ -35,7 +35,7 @@ export class ActivityController {
 
     @Patch('/update/:id')
     @ApiBody({type : UpdateActivityDto})
-    async updateActivity(id : number , activity : UpdateActivityDto){
+    async updateActivity(@Param('id') id : number , activity : UpdateActivityDto){
         return await this.activityService.updateActivity(id , activity);
     }
 
