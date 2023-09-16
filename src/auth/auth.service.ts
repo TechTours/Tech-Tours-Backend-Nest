@@ -51,21 +51,25 @@ export class AuthService {
       },
     });
     if (user) {
-      if (token == user.token && user.tokenExpiration < new Date().getHours()) {
+      console.log(user.tokenExpiration);
+      console.log(new Date().getHours());
+      if (token == user.token && user.tokenExpiration > new Date().getHours()) {
         user.isVerified = true;
         await this.userRepository.save(user);
       } else {
         return {
           message: 'Failed! Token expired',
           data: null,
+          status:false
         };
       }
     }else{
-        return "User Not found!"
+        return {message:"User Not found!",data:null,status:false}
     }
     return {
       message: 'Email verified successfully',
       data: user,
+      status:true
     };
   }
 }
