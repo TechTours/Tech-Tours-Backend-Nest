@@ -92,7 +92,7 @@ export class UsersController {
     }
     @Public()
     @Post('/sendverification')
-    async sendEmailVerification(@Body() email){
+    async sendEmailVerification(@Body("email") email){
         return await this.authService.sendVerificationEmail(email);
     }
     @Public()

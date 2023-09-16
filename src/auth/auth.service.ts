@@ -60,6 +60,8 @@ export class AuthService {
           data: null,
         };
       }
+    }else{
+        return "User Not found!"
     }
     return {
       message: 'Email verified successfully',
