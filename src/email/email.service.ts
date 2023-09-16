@@ -30,7 +30,7 @@ export class EmailService {
 
         We are pleased to welcome you to TechTours. Take this time to verify your email by clicking the link below: <br />
         
-        ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}?email=${to}
+        ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}&email=${to}
         `,
       };
 
