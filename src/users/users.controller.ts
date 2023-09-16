@@ -90,12 +90,12 @@ export class UsersController {
     async login(@Body() user : UserLoginDto){
         return await this.usersService.login(user)
     }
-
+    @Public()
     @Post('/sendverification')
     async sendEmailVerification(@Body() email){
         return await this.authService.sendVerificationEmail(email);
     }
-
+    @Public()
     @Post('/verify/:token')
     async verifyToken(@Param("token") token:string,@Body("email") email:string){
         return await this.authService.verifyToken(email,token)
