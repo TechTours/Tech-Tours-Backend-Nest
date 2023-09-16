@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,7 +12,7 @@ import { ConfigModule , ConfigService } from '@nestjs/config';
 @Module({
   controllers: [UsersController],
   providers: [UsersService],
-  imports : [TypeOrmModule.forFeature([User]) , RolesModule , AuthModule , JwtModule.registerAsync({
+  imports : [TypeOrmModule.forFeature([User]) , RolesModule , forwardRef(() => AuthModule) , JwtModule.registerAsync({
     imports : [ConfigModule],
     global : true,
     useFactory : async (configService : ConfigService) => ({

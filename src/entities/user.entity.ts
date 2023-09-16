@@ -45,5 +45,14 @@ export class User {
 
   @Column({ nullable: true})
   updatedAt : Date
+  
+  @Column({nullable:true})
+  isVerified:boolean;
+
+  @Column({nullable:true,})
+  token:string;
+
+  @Column({nullable:true})
+  tokenExpiration:number;
 
 }

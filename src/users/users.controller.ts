@@ -9,12 +9,14 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import {UseGuards} from '@nestjs/common'
 import { Public } from 'src/decorators/public.decorator';
 import { UserLoginDto } from 'src/dtos/user-login.dto';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
     constructor(
-        private readonly usersService : UsersService
+        private readonly usersService : UsersService,
+        private readonly authService :  AuthService
     ){}
 
     @Get('/all')
@@ -87,5 +89,10 @@ export class UsersController {
     @ApiBody({type : UserLoginDto})
     async login(@Body() user : UserLoginDto){
         return await this.usersService.login(user)
+    }
+
+    @Post()
+    async sendEmailVerification(@Body() email){
+         return await this.authService.sendVerificationEmail(email);
     }
 }
