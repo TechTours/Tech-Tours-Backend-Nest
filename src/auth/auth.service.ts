@@ -51,6 +51,13 @@ export class AuthService {
       },
     });
     if (user) {
+      if(user.isVerified){
+        return {
+          message:"Already verified",
+          data:null,
+          status:true
+        }
+      }
       console.log(user.tokenExpiration);
       console.log(new Date().getHours());
       if (token == user.token && user.tokenExpiration > new Date().getHours()) {
