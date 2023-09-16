@@ -2,12 +2,14 @@
 
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class EmailService {
   private transporter;
 
-  constructor() {
+  constructor(
+    private readonly configService:ConfigService
+  ) {
     this.transporter = nodemailer.createTransport({
       service: 'Gmail', // Use your email service provider
       auth: {
@@ -28,7 +30,7 @@ export class EmailService {
 
         We are pleased to welcome you to TechTours. Take this time to verify your email by clicking the link below: <br />
         
-        https://tech-tours-frontend.vercel.app/verify?token=${token}
+        ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}?email=${to}
         `,
       };
 

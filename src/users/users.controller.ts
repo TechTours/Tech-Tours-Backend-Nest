@@ -91,8 +91,13 @@ export class UsersController {
         return await this.usersService.login(user)
     }
 
-    @Post()
+    @Post('/sendverification')
     async sendEmailVerification(@Body() email){
-         return await this.authService.sendVerificationEmail(email);
+        return await this.authService.sendVerificationEmail(email);
+    }
+
+    @Post('/verify')
+    async verifyToken(@Param("token") token:string,@Body("email") email:string){
+        return await this.authService.verifyToken(email,token)
     }
 }

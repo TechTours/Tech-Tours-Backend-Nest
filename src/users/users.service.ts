@@ -142,7 +142,7 @@ export class UsersService {
     userEntity.OTP = null;
 
     await this.userRepository.save(userEntity);
-
+    await this.authService.sendVerificationEmail(userEntity.email);
     return {
       message: 'The Admin Has Been Created Successfully',
       user: userEntity,
@@ -258,6 +258,9 @@ export class UsersService {
     if (!bcrypt.compareSync(password, userSelected.password)) {
       return new BadRequestException('Invalid Email Or Password');
     }
+    if(!userSelected.isVerified){
+        return new BadRequestException("Email not verified");
+    }
     const payload = {
       username: userSelected.username,
       id: userSelected.id,
@@ -273,5 +276,5 @@ export class UsersService {
     };
   }
 
-//   @
+
 }
