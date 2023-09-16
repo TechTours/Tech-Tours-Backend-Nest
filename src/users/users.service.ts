@@ -79,6 +79,7 @@ export class UsersService {
   async createAdmin(user: CreateUserDto): Promise<
     | {
         message: string;
+        status : number;
         user: User;
       }
     | BadRequestException
@@ -145,6 +146,7 @@ export class UsersService {
     await this.authService.sendVerificationEmail(userEntity.email);
     return {
       message: 'The Admin Has Been Created Successfully',
+      status : 201,
       user: userEntity,
     };
   }
