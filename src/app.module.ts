@@ -36,7 +36,7 @@ import { AuthModule } from './auth/auth.module';
           synchronize: true,
         }),
         inject: [ConfigService],
-      }), RolesModule, UsersModule, ActivityModule, HomeModule, AuthModule
+      }), RolesModule, UsersModule, ActivityModule, HomeModule, AuthModule 
     ]
   })
 
