@@ -22,7 +22,7 @@ export class EmailService {
   async sendEmail(to: string, name: string, token: string) {
     try {
       const mailOptions = {
-        from: 'hallcoder25@gmail.com',
+        from: 'techtour06@gmail.com',
         to,
         subject: 'TechTours Email Verification',
         html: `
