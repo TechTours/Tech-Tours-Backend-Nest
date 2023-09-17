@@ -67,7 +67,6 @@ export class UsersController {
         return await this.usersService.createAdmin(admin)
     }
 
-    @Public()
     @Post('/create')
     @ApiBody({type : CreateUserDto})
     async createUser(@Body() user : CreateUserDto){
