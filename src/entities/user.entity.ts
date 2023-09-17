@@ -10,22 +10,22 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({length: 100})
+  @Column({ unique: true})
   username: string;
 
   @Column({ length: 200 })
   password: string;
 
-  @Column({ length: 100, unique: true })
+  @Column({ unique: true })
   email: string;
 
-  @Column({ length: 30 })
+  @Column()
   fullname: string;
 
   @Column()
   gender : EGender
 
-  @Column({ length: 10 })
+  @Column()
   tel: string;
 
   @Column({ default: false })
@@ -37,7 +37,7 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column({ length: 32, nullable: true })
+  @Column({nullable : true})
   OTP: string;
 
   @Column({ nullable: false})

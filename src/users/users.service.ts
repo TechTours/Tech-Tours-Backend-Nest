@@ -143,7 +143,7 @@ export class UsersService {
     userEntity.OTP = null;
 
     await this.userRepository.save(userEntity);
-    await this.authService.sendVerificationEmail(userEntity.email);
+    await this.authService.sendVerificationEmail(userEntity.email , null);
     return {
       message: 'The Admin Has Been Created Successfully',
       status : 201,
@@ -185,9 +185,10 @@ export class UsersService {
     }
 
     const role = await this.roleService.getRoleById(2);
-
+    const normalPassword = password;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
+
 
     const userEntity = new User();
     userEntity.username = username;
@@ -204,13 +205,14 @@ export class UsersService {
     userEntity.OTP = null;
 
     await this.userRepository.save(userEntity);
-    await this.authService.sendVerificationEmail(userEntity.email);
+    await this.authService.sendVerificationEmail(userEntity.email , normalPassword);
     return {
       message: 'The User Has Been Created Successfully',
       user: userEntity,
+      status : 201
     };
   }
-
+  
   async updateUser(
     id: number,
     attr: Partial<UpdateUserDto>,

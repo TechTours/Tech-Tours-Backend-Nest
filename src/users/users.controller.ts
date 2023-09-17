@@ -67,6 +67,7 @@ export class UsersController {
         return await this.usersService.createAdmin(admin)
     }
 
+    @Public()
     @Post('/create')
     @ApiBody({type : CreateUserDto})
     async createUser(@Body() user : CreateUserDto){
@@ -93,7 +94,7 @@ export class UsersController {
     @Public()
     @Post('/sendverification')
     async sendEmailVerification(@Body("email") email){
-        return await this.authService.sendVerificationEmail(email);
+        return await this.authService.sendVerificationEmail(email , null);
     }
     @Public()
     @Post('/verify/:token')
