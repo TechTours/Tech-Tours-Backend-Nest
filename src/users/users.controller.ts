@@ -24,6 +24,12 @@ export class UsersController {
         return await this.usersService.findAll()
     }
 
+    @Patch('/update/:id')
+    @ApiBody({type : UpdateUserDto})
+    async updateUser(@Param('id') id : string , @Body() user : UpdateUserDto){
+        return await this.usersService.updateUser(parseInt(id),user)
+    }
+
     @Get('/id/:id')
     async findOne(@Param('id') id : string){
         const user = await this.usersService.findOneById(parseInt(id))
@@ -73,11 +79,6 @@ export class UsersController {
         return await this.usersService.createUser(user)
     }
 
-    @Patch('/update/:id')
-    @ApiBody({type : UpdateUserDto})
-    async updateUser(@Param('id') id : string , @Body() user : UpdateUserDto){
-        return await this.usersService.updateUser(parseInt(id),user)
-    }
 
     @Delete('/delete/:id')
     async deleteUser(@Param('id') id : string){

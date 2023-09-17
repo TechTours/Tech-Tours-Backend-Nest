@@ -226,6 +226,22 @@ export class UsersService {
     const user = await this.findOneById(id);
     if (!user) return new NotFoundException('User Not Found');
 
+   if(attr.gender){
+    if(attr.gender != 'male' && attr.gender != 'female') {
+      return new BadRequestException('Invalid Gender');
+    }
+
+    let userGender;
+
+    if (attr.gender == 'male') {
+      userGender = EGender.MALE;
+    } else {
+      userGender = EGender.FEMALE;
+    }
+
+    attr.gender = userGender;
+   }
+   
     Object.assign(user, attr);
 
     await this.userRepository.save(user);
@@ -233,6 +249,7 @@ export class UsersService {
     return {
       message: 'The User Has Been Updated Successfully',
       user: user,
+      status : 200
     };
   }
 
