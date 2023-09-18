@@ -6,11 +6,13 @@ import { Activity } from 'src/entities/activity.entity';
 import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { UpdateActivityDto } from 'src/dtos/update-activity.dto';
+import { WebsocketGateway } from 'src/websocket/websocket.gateway';
 
 @Injectable()
 export class ActivityService {
     constructor(
-        @InjectRepository(Activity) private readonly activityRepository : Repository<Activity>
+        @InjectRepository(Activity) private readonly activityRepository : Repository<Activity>,
+        private readonly webSocketGateway: WebsocketGateway
     ){}
 
     async findAll(){
@@ -38,12 +40,16 @@ export class ActivityService {
         newActivity.longitude = longitude;
         newActivity.latitude = latitude;
 
-         await this.activityRepository.save(newActivity);
+        await this.activityRepository.save(newActivity);
+        
+        this.webSocketGateway.sendData(newActivity);
 
         return {
             message : "Activity created successfully",
             activity : newActivity
         }
+
+
 
     }
 

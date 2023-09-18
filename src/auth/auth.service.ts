@@ -32,7 +32,12 @@ export class AuthService {
         throw new NotFoundException('User not found!');
       }
     } catch (error) {
-      throw new Error(error.message);
+      console.log(error.message)
+      return {
+        message:error.message,
+        status:false,
+        data:null
+      }
     }
   }
 

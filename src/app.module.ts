@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { ActivityModule } from './activity/activity.module';
 import { HomeModule } from './home/home.module';
 import { AuthModule } from './auth/auth.module';
+import { WebsocketGateway } from './websocket/websocket.gateway';
 
   @Module({
     imports: [
@@ -37,7 +38,8 @@ import { AuthModule } from './auth/auth.module';
         }),
         inject: [ConfigService],
       }), RolesModule, UsersModule, ActivityModule, HomeModule, AuthModule 
-    ]
+    ],
+    providers: [WebsocketGateway]
   })
 
 export class AppModule implements OnModuleInit {
