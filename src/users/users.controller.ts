@@ -101,7 +101,7 @@ export class UsersController {
     }
 
     @Post("/resetPassword")
-    async resetPassword(){
+    async resetPassword(@Body('email') email : string){
         return await this.authService.resetPassword(email);
     }
 }
