@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,7 +13,8 @@ export class AuthService {
     @InjectRepository(User) private userRepository: Repository<User>,
     private readonly emailService: EmailService,
   ) {}
-  async sendVerificationEmail(email: string) {
+  async sendVerificationEmail(email: string , password : string | null) {
+
     try {
       let user = await this.userRepository.findOne({
         where: {
@@ -26,8 +28,13 @@ export class AuthService {
         };
         user['token'] = token.value;
         user['tokenExpiration'] = token.expiration;
+       if(password && password != null){
         await this.userRepository.save(user);
-        await this.emailService.sendEmail(email, user.fullname, token.value);
+        await this.emailService.sendEmail(user.email, user.fullname, token.value , password);
+       }else{
+        await this.userRepository.save(user);
+        await this.emailService.sendEmail(user.email, user.fullname, token.value , null);
+       }
       } else {
         throw new NotFoundException('User not found!');
       }

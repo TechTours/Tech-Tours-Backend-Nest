@@ -1,5 +1,4 @@
-// src/email/email.service.ts
-
+/* eslint-disable */
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { ConfigService } from '@nestjs/config';
@@ -19,20 +18,47 @@ export class EmailService {
     });
   }
 
-  async sendEmail(to: string, name: string, token: string) {
+  async sendEmail(to: string, name: string, token: string , password : string | null) { 
+    console.log("The User Email is : " , to)
     try {
-      const mailOptions = {
-        from: 'techtour06@gmail.com',
-        to,
-        subject: 'TechTours Email Verification',
-        html: `
-        Hello ${name}, <br />
+      let mailOptions;
+      if(password && password != null){
+         mailOptions = {
+          from: 'techtour06@gmail.com',
+          to : to,
+          subject: 'TechTours Email Verification',
+          html: `
+          Hello ${name}, <br />
+  
+          We are pleased to welcome you to TechTours. 
+          
+          <br />
 
-        We are pleased to welcome you to TechTours. Take this time to verify your email by clicking the link below: <br />
+          To Login use your current password name make sure you change it after you login <br />
+
+          Yor Current Password : ${password} <br />
+
+          Take this time to verify your email by clicking the link below: <br />
+          
+          ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}&email=${to}
+          `,
+
         
-        ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}&email=${to}
-        `,
-      };
+        };
+      }else{
+         mailOptions = {
+          from: 'techtour06@gmail.com',
+          to,
+          subject: 'TechTours Email Verification',
+          html: `
+          Hello ${name}, <br />
+  
+          We are pleased to welcome you to TechTours. Take this time to verify your email by clicking the link below: <br />
+          
+          ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}&email=${to}
+          `,
+        };
+      }
 
       await this.transporter.sendMail(mailOptions);
       return 'Email sent successfully';

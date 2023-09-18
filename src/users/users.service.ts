@@ -79,6 +79,7 @@ export class UsersService {
   async createAdmin(user: CreateUserDto): Promise<
     | {
         message: string;
+        status : number;
         user: User;
       }
     | BadRequestException
@@ -142,9 +143,10 @@ export class UsersService {
     userEntity.OTP = null;
 
     await this.userRepository.save(userEntity);
-    await this.authService.sendVerificationEmail(userEntity.email);
+    await this.authService.sendVerificationEmail(userEntity.email , null);
     return {
       message: 'The Admin Has Been Created Successfully',
+      status : 201,
       user: userEntity,
     };
   }
@@ -183,9 +185,10 @@ export class UsersService {
     }
 
     const role = await this.roleService.getRoleById(2);
-
+    const normalPassword = password;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
+
 
     const userEntity = new User();
     userEntity.username = username;
@@ -202,13 +205,14 @@ export class UsersService {
     userEntity.OTP = null;
 
     await this.userRepository.save(userEntity);
-    await this.authService.sendVerificationEmail(userEntity.email);
+    await this.authService.sendVerificationEmail(userEntity.email , normalPassword);
     return {
       message: 'The User Has Been Created Successfully',
       user: userEntity,
+      status : 201
     };
   }
-
+  
   async updateUser(
     id: number,
     attr: Partial<UpdateUserDto>,
@@ -222,6 +226,22 @@ export class UsersService {
     const user = await this.findOneById(id);
     if (!user) return new NotFoundException('User Not Found');
 
+   if(attr.gender){
+    if(attr.gender != 'male' && attr.gender != 'female') {
+      return new BadRequestException('Invalid Gender');
+    }
+
+    let userGender;
+
+    if (attr.gender == 'male') {
+      userGender = EGender.MALE;
+    } else {
+      userGender = EGender.FEMALE;
+    }
+
+    attr.gender = userGender;
+   }
+   
     Object.assign(user, attr);
 
     await this.userRepository.save(user);
@@ -229,6 +249,7 @@ export class UsersService {
     return {
       message: 'The User Has Been Updated Successfully',
       user: user,
+      status : 200
     };
   }
 

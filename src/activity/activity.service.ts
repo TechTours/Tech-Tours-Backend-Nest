@@ -46,7 +46,8 @@ export class ActivityService {
 
         return {
             message : "Activity created successfully",
-            activity : newActivity
+            activity : newActivity,
+            status : 201
         }
 
 
