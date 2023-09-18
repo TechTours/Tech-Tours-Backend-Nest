@@ -10,6 +10,7 @@ export class WebsocketGateway {
   }
 
   sendData(payload: any): string {
+    this.server.emit("data",payload);
     return payload;
   }
 }

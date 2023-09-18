@@ -41,8 +41,8 @@ export class ActivityService {
         newActivity.latitude = latitude;
 
         await this.activityRepository.save(newActivity);
-        
-        this.webSocketGateway.sendData(newActivity);
+        let activities  =await this.activityRepository.find({});
+        this.webSocketGateway.sendData(activities);
 
         return {
             message : "Activity created successfully",
