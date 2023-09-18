@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { UpdateActivityDto } from 'src/dtos/update-activity.dto';
 import { WebsocketGateway } from 'src/websocket/websocket.gateway';
+import {DateTime} from "luxon"
 
 @Injectable()
 export class ActivityService {
@@ -18,6 +19,21 @@ export class ActivityService {
     async findAll(){
         return await this.activityRepository.find()
     }
+
+    async findAllValid() {
+        const all = await this.activityRepository.find();
+      
+        // Filter out activities that are more than 10 minutes old
+        const now = DateTime.now();
+        const tenMinutesAgo = now.minus({ minutes: 10 });
+      
+        const valid = all.filter(activity =>
+          DateTime.fromJSDate(activity.time).toMillis() >= tenMinutesAgo.toMillis()
+        );
+      
+        return valid;
+      }
+
 
     async findOneById(id : number){
         return await this.activityRepository.findOne({
