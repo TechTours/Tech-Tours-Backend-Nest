@@ -18,6 +18,11 @@ export class ActivityController {
         return await this.activityService.findAll();
     }
 
+    @Get('/all/valid')
+    async findAllValid(){
+        return await this.activityService.findAllValid();
+    }
+
     @Get('/id/:id')
     async findOneById(@Param('id') id : string){
         const activity =  await this.activityService.findOneById(parseInt(id));
