@@ -13,4 +13,4 @@ export class WebsocketGateway {
     this.server.emit("data",payload);
     return payload;
   }
-}
+} 

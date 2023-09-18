@@ -5,6 +5,7 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { CreateActivityDto } from 'src/dtos/create-activity.dto';
 import { UpdateActivityDto } from 'src/dtos/update-activity.dto';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('activity')
 @ApiTags('activity')
@@ -26,7 +27,8 @@ export class ActivityController {
         }
         return activity;
     }
-
+    
+    @Public()
     @Post('/create')
     @ApiBody({type : CreateActivityDto})
     async createActivity(@Body() activity : CreateActivityDto){

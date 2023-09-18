@@ -91,4 +91,22 @@ export class AuthService {
       status:true
     };
   }
+
+  async resetPassword(email){
+    let user = await this.userRepository.find({
+      where:{
+        email
+      }
+    });
+    if(!user || user){
+      return {
+        message:"User not found!",
+        data:null,
+        status:"failed"
+      }
+    }
+    
+
+  }
+
 }

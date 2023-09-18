@@ -5,8 +5,6 @@ import { UsersService } from './users.service';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { CreateUserDto } from 'src/dtos/create-user.dto';
 import { UpdateUserDto } from 'src/dtos/update-user.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
-import {UseGuards} from '@nestjs/common'
 import { Public } from 'src/decorators/public.decorator';
 import { UserLoginDto } from 'src/dtos/user-login.dto';
 import { AuthService } from 'src/auth/auth.service';
@@ -100,5 +98,10 @@ export class UsersController {
     @Post('/verify/:token')
     async verifyToken(@Param("token") token:string,@Body("email") email:string){
         return await this.authService.verifyToken(email,token)
+    }
+
+    @Post("/resetPassword")
+    async resetPassword(){
+        return await this.authService.resetPassword(email);
     }
 }
