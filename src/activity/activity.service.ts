@@ -27,7 +27,7 @@ export class ActivityService {
         const now = DateTime.now();
         const tenMinutesAgo = now.minus({ minutes: 10 });
       
-        const valid = all.filter(activity =>
+        const valid = all.filter(activity =>    
           DateTime.fromJSDate(activity.time).toMillis() >= tenMinutesAgo.toMillis()
         );
       

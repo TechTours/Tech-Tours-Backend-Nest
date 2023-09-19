@@ -55,10 +55,10 @@ export class User {
   @Column({nullable:true})
   tokenExpiration:number;
 
-  @Column()
+  @Column({nullable:true})
   resetToken:string;
 
-  @Column()
+  @Column({nullable:true})
   resetTokenExpiration:number
 
 }
