@@ -13,10 +13,10 @@ export class CreateActivityDto {
   @ApiProperty()
   location: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  time: Date;
+  // @IsString()
+  // @IsNotEmpty()
+  // @ApiProperty()
+  // time: Date;
 
   @IsString()
   @IsNotEmpty()

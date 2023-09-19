@@ -22,13 +22,9 @@ export class ActivityService {
 
     async findAllValid() {
         const all = await this.activityRepository.find();
-      
         // Filter out activities that are more than 10 minutes old
-        const now = DateTime.now();
-        const tenMinutesAgo = now.minus({ minutes: 10 });
-      
         const valid = all.filter(activity =>    
-          DateTime.fromJSDate(activity.time).toMillis() >= tenMinutesAgo.toMillis()
+          (new Date().getTime() - activity.time.getTime())/(1000*60) <= 10
         );
       
         return valid;
@@ -44,15 +40,15 @@ export class ActivityService {
     }
 
     async createActivity(activity : CreateActivityDto){
-        const {animal , location , time , longitude , latitude } = activity;
-        if(!animal || !location || !time || !longitude || !latitude){
+        const {animal , location , longitude , latitude } = activity;
+        if(!animal || !location  || !longitude || !latitude){
             return new BadRequestException("Please fill all the fields");
         }
 
         const newActivity = new Activity();
         newActivity.animal = animal;
         newActivity.location = location;
-        newActivity.time = time;
+        newActivity.time = new Date();
         newActivity.longitude = longitude;
         newActivity.latitude = latitude;
 
