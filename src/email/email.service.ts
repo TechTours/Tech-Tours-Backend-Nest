@@ -6,9 +6,7 @@ import { ConfigService } from '@nestjs/config';
 export class EmailService {
   private transporter;
 
-  constructor(
-    private readonly configService:ConfigService
-  ) {
+  constructor(private readonly configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
       service: 'Gmail', // Use your email service provider
       auth: {
@@ -18,14 +16,19 @@ export class EmailService {
     });
   }
 
-  async sendEmail(to: string, name: string, token: string , password : string | null) { 
-    console.log("The User Email is : " , to)
+  async sendEmail(
+    to: string,
+    name: string,
+    token: string,
+    password?: string | null,
+    reset?:boolean
+  ) {
     try {
       let mailOptions;
-      if(password && password != null){
-         mailOptions = {
+      if (password && password != null && !reset) {
+        mailOptions = {
           from: 'techtour06@gmail.com',
-          to : to,
+          to: to,
           subject: 'TechTours Email Verification',
           html: `
           Hello ${name}, <br />
@@ -40,13 +43,30 @@ export class EmailService {
 
           Take this time to verify your email by clicking the link below: <br />
           
-          ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}&email=${to}
+          ${this.configService.get<string>(
+            'FRONTEND_URL',
+          )}/verify?token=${token}&email=${to}
           `,
-
-        
         };
-      }else{
-         mailOptions = {
+      }
+      else if(reset){
+        mailOptions = {
+          from: 'techtour06@gmail.com',
+          to,
+          subject: 'TechTours Password Reset Email',
+          html: `
+          Hello <strong>${name}</strong>, <br />
+          
+          This email serves to allow you reset your password , If you did not ask for this email <br />
+          you can just ignore it.
+          
+          ${this.configService.get<string>(
+            'FRONTEND_URL',
+          )}/verify?token=${token}&email=${to}
+          `,
+        };
+      } else {
+        mailOptions = {
           from: 'techtour06@gmail.com',
           to,
           subject: 'TechTours Email Verification',
@@ -55,7 +75,9 @@ export class EmailService {
   
           We are pleased to welcome you to TechTours. Take this time to verify your email by clicking the link below: <br />
           
-          ${this.configService.get<string>('FRONTEND_URL')}/verify?token=${token}&email=${to}
+          ${this.configService.get<string>(
+            'FRONTEND_URL',
+          )}/verify?token=${token}&email=${to}
           `,
         };
       }
